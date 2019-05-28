@@ -288,7 +288,7 @@ var tile = {
 	}
 }
 	
-game.start(4);
+game.start(5);
 
 
 
