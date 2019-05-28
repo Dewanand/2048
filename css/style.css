@@ -1,0 +1,22 @@
+#board{
+		font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+		font-size:40px;
+		font-weight: bold;
+		color: #776e65; 
+	}
+	#board table{
+		border-spacing: 10px;
+		background-color: #bbada0;
+		margin: auto;
+
+
+	}
+	#board  td {
+		width: 100px;
+		height: 100px;
+		text-align: center;
+		/*background-color: #eee4da; */
+
+
+	}
+	
