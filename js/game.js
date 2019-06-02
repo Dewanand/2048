@@ -6,6 +6,18 @@ var game = {
 		board.size = size || 4;
 		board.draw();
 		tile.generate();
+		
+		document.onkeydown = function() {
+		    tile.move(window.event.keyCode);
+		}
+		
+		document.ontouchstart = function(evt) {
+		   tile.handleTouchStart(evt);
+		}
+		
+		document.ontouchmove = function(evt) {
+		   tile.handleTouchMove(evt);
+		}
 
 	}
 }
@@ -43,11 +55,9 @@ var board = {
 
 		document.getElementById('board').innerHTML = html_text;
 
-		document.onkeydown = function() {
-		    tile.move(window.event.keyCode);
-		}
-		document.addEventListener('touchstart', tile.handleTouchStart, false);        
-		document.addEventListener('touchmove', tile.handleTouchMove, false);
+		
+		//document.addEventListener('onclick', tile.handleTouchStart, false);        
+		//document.addEventListener('ontouchmove', tile.handleTouchMove, false);
 	},		
 	update: function (board_array) {
 
@@ -191,12 +201,12 @@ var tile = {
 	},
 	
 	handleTouchStart: function (evt) {
-		alert('aa');
-		const firstTouch = evt.touches[0] || evt.originalEvent.touches[0];                                     
-		this.xDown = firstTouch.clientX;                                      
-		this.yDown = firstTouch.clientY;                                      
+		//console.log(evt);
+		var firstTouch = evt.touches;                                     
+		this.xDown = firstTouch[0].clientX;                                      
+		this.yDown = firstTouch[0].clientY;                                      
 	},
-	handleTouchStart: function (evt) {
+	handleTouchMove: function (evt) {
 			if ( ! this.xDown || ! this.yDown ) {
 			return;
 		}
@@ -204,20 +214,20 @@ var tile = {
 		var xUp = evt.touches[0].clientX;                                    
 		var yUp = evt.touches[0].clientY;
 
-		var xDiff = xDown - xUp;
-		var yDiff = yDown - yUp;
+		var xDiff = this.xDown - xUp;
+		var yDiff = this.yDown - yUp;
 
 		if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
 			if ( xDiff > 0 ) {
-				move(39); //right
+				this.move(37); //right
 			} else {
-				move(37);/* left swipe */
+				this.move(39);/* left swipe */
 			}                       
 		} else {
 			if ( yDiff > 0 ) {
-				move(38);
+				this.move(38);
 			} else { 
-				move(40);
+				this.move(40);
 			}                                                                 
 		}
 		/* reset values */
