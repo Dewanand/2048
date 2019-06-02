@@ -191,6 +191,7 @@ var tile = {
 	},
 	
 	handleTouchStart: function (evt) {
+		alert('aa');
 		const firstTouch = evt.touches[0] || evt.originalEvent.touches[0];                                     
 		this.xDown = firstTouch.clientX;                                      
 		this.yDown = firstTouch.clientY;                                      
