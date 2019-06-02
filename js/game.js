@@ -46,6 +46,8 @@ var board = {
 		document.onkeydown = function() {
 		    tile.move(window.event.keyCode);
 		}
+		document.addEventListener('touchstart', tile.handleTouchStart, false);        
+		document.addEventListener('touchmove', tile.handleTouchMove, false);
 	},		
 	update: function (board_array) {
 
@@ -65,6 +67,8 @@ var board = {
 }
 
 var tile = {
+	xDown:null,
+	yDown:null,
 	tile_array: [],
 	tile_color_array: [
 		'#eee4da'
@@ -185,7 +189,41 @@ var tile = {
 		}
 
 	},
+	
+	handleTouchStart: function (evt) {
+		const firstTouch = evt.touches[0] || evt.originalEvent.touches[0];                                     
+		this.xDown = firstTouch.clientX;                                      
+		this.yDown = firstTouch.clientY;                                      
+	},
+	handleTouchStart: function (evt) {
+			if ( ! this.xDown || ! this.yDown ) {
+			return;
+		}
 
+		var xUp = evt.touches[0].clientX;                                    
+		var yUp = evt.touches[0].clientY;
+
+		var xDiff = xDown - xUp;
+		var yDiff = yDown - yUp;
+
+		if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+			if ( xDiff > 0 ) {
+				move(39); //right
+			} else {
+				move(37);/* left swipe */
+			}                       
+		} else {
+			if ( yDiff > 0 ) {
+				move(38);
+			} else { 
+				move(40);
+			}                                                                 
+		}
+		/* reset values */
+		this.xDown = null;
+		this.yDown = null;
+			
+	},	
 	moveHor: function () {
 		console.log(this.tile_array);
 		var hasMoved;
@@ -288,7 +326,7 @@ var tile = {
 	}
 }
 	
-game.start(5);
+game.start(4);
 
 
 
